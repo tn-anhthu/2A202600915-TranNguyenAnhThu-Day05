@@ -5,8 +5,11 @@ Nộp kèm thin SPEC cuối Day 05.
 ## 1. Nhóm và track
 
 **Tên nhóm:**  Duy Bảo, Hữu Khoa, Anh Thư
+
 **Track:**  A. Learning OS (VinAI Thực chiến)
+
 **Product/app đã chọn:**  Website VinUni
+
 **Build slice đang nghĩ:**  Chatbot tư vấn chương trình VinAI Thực chiến
 
 ## 2. Self-use evidence
