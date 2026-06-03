@@ -61,7 +61,7 @@ tui muốn mua laptop
 ```text
 tui muốn mua laptop, có ưu đãi gì không?
 ```
-![Mua laptop - thêm context](Figures_moni/laptop_uudai.jpeg)
+![Mua laptop - thêm context](Figures_moni/mualaptop_uudai.jpeg)
 
 ## 4. Viết finding thành quyết định
 
