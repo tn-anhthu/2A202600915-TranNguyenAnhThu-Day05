@@ -4,56 +4,57 @@ Nộp kèm thin SPEC cuối Day 05.
 
 ## 1. Nhóm và track
 
-**Tên nhóm:**  Duy Bảo, Hữu Khoa, Anh Thư
+**Tên nhóm:**  Duy Bảo, Hữu Khoa, Anh Thư (E402-Nhom69)
 
 **Track:**  A. Learning OS (VinAI Thực chiến)
 
-**Product/app đã chọn:**  Website VinUni
+**Product/app đã chọn:**  Trợ lý Kute (phiên bản cũ) / Kênh hỗ trợ học viên VinAI Thực chiến
 
-**Build slice đang nghĩ:**  Chatbot tư vấn chương trình VinAI Thực chiến
+**Build slice đang nghĩ:**  Chatbot Kuter hỗ trợ học tập và vận hành VinAI Thực chiến (RAG kết hợp Handbook PDF tĩnh + Discord Q&A động trong Rule-base + Fallback tự động log new_issue.json và Mentor Reply).
 
 ## 2. Self-use evidence
 
 | Observation | Screenshot/link | Path liên quan | Điều học được |
 |---|---|---|---|
-| Mở Handbook PDF 17 trang ra để tìm xem "Sinh viên năm cuối có được tham gia không?", phải dùng Ctrl+F quét mới ra kết quả ở trang 13. | ![Handbook Search](Figures/handbook_search_manually.jpeg) | Happy | User lười đọc document dài. Bot cần trích xuất trực tiếp câu trả lời kèm số trang thay vì quăng lại cả file. |
-| Lên nhóm hỗ trợ hỏi về "Lỗi setup môi trường", kết quả ra 1 đống tin nhắn đứt đoạn, không biết đâu là câu trả lời chốt cuối cùng của Mentor. | ![Discord Search](Figures/discord_chat.jpeg) | Low-confidence / Failure | Data trên nhóm hỗ trợ rất nhiễu. Nếu AI không tổng hợp được context, nó sẽ sinh ảo (Hallucination) hoặc trả lời sai. Cần thiết kế Fallback tag thẳng Mentor nếu bot không chắc chắn. |
+| Thành viên Duy Bảo hỏi Trợ lý Kute cũ cách xử lý khi muốn đổi nhóm đã được ghép. Bot không biết trả lời, lập tức tag Mod và đầu hàng vì câu hỏi này mang tính vận hành linh hoạt không có trong Handbook PDF. | ![Đổi nhóm bị lỗi](Figures/evidence_1.png) | Low-confidence / Failure | Tri thức động cực kỳ quan trọng. Các câu hỏi vận hành thực tế đã được Admin/Mentor giải quyết trên Discord nhưng bot cũ không truy cập được vì chỉ RAG Handbook tĩnh. |
+| Mở Handbook PDF 17 trang ra để tìm xem "Sinh viên năm cuối có được tham gia không?", phải dùng Ctrl+F quét mới ra kết quả ở trang 13. | ![Handbook Search](Figures/handbook_search_manually.jpeg) | Happy | Học viên lười đọc tài liệu dài. Bot cần trích xuất trực tiếp câu trả lời ngắn kèm số trang trích dẫn thay vì quăng lại cả file PDF. |
 
 ## 3. User / review / social evidence
 
-Nguồn có thể là review App Store/Play, group, comment, phỏng vấn nhanh, hoặc nguồn public khác.
+Nguồn có thể là phỏng vấn nhanh hoặc nguồn thực tế trên kênh Discord chung.
 
 | Quote / review / observation | Nguồn | User là ai? | Pain/failure mode |
 |---|---|---|---|
-| "Hi admin, anh/chị cho em xin slide bài giảng buổi 3 nhé." | Discord | Học viên | Tìm kiếm thông tin vận hành lắt nhắt tốn thời gian, trôi tin nhắn. |
-| "Mọi người có ai không làm được daily không ạ, hôm qua em làm bình thường nhưng hôm nay lại báo chỉ dùng được trong thread của team ạ" | Discord | Học viên | Đang kẹt lỗi kỹ thuật |
-
+| Học viên Lê Bá Chiến tag Trợ lý Kute hỏi: "cho tao xin slide day 4". Bot trả lời không chắc chắn và tag Mod, dù link slide đã được post trên kênh Discord trước đó. | Discord (`Figures/evidence_2.png`) | Học viên lớp | Trôi tài nguyên học tập, bot không đồng bộ được các cập nhật mới nhất từ Mentor trên Discord, gây quá tải kênh chung. |
+| "Mọi người có ai không làm được daily không ạ, hôm qua em làm bình thường nhưng hôm nay lại báo chỉ dùng được trong thread của team ạ" | Discord | Học viên lớp | Kẹt lỗi kỹ thuật, cần câu trả lời ngay lập tức nhưng phải đợi Mentor online để được hỗ trợ. |
 
 ## 4. Competitor / analog evidence
 
 | App / mô hình tham khảo | Họ xử lý task này thế nào? | Pattern học được | Có áp dụng trong 1 ngày không? |
 |---|---|---|---|
-| Chatbot tư vấn tuyển sinh đại học (Rule-based) | Trả lời theo kịch bản cố định (nhấn phím 1, phím 2). Hỏi lệch kịch bản là báo lỗi hoặc xin số điện thoại. | Trải nghiệm rất gò bó (Robotic). Nhưng cơ chế fallback "Xin thông tin để tư vấn viên gọi lại" rất an toàn. | Có. Nhóm dùng LLM để chat mượt hơn (Augment), nhưng giữ lại nút "Gửi câu hỏi cho Mentor" khi AI bó tay.|
-|DataCamp / Coursera AI Assistant|Đưa ra gợi ý code, giải thích khái niệm hẹp ngay trong bài học. Sai thì user bấm dislike.| Thu thập learning signal qua nút Vote (Approve/Reject) để đánh giá độ chính xác.|Dựng UI có 2 nút Thumbs Up / Thumbs Down đơn giản.|
+| Chatbot tư vấn tuyển sinh đại học (Rule-based) | Trả lời theo kịch bản cố định (nhấn phím 1, phím 2). Hỏi lệch kịch bản là báo lỗi hoặc xin số điện thoại. | Trải nghiệm rất gò bó. Nhưng cơ chế fallback "xin thông tin để gọi lại" rất an toàn để kiểm soát rủi ro. | Có. Nhóm dùng LLM để chat mượt mà (Augment) kết hợp cơ chế Fallback (tự động log new_issue.json và hướng dẫn liên hệ Mentor) khi AI không tự tin. |
+| DataCamp / Coursera AI Assistant | Đưa ra gợi ý code, giải thích khái niệm hẹp ngay trong bài học. | Thu thập phản hồi khi người dùng báo cáo lỗi để đánh giá độ chính xác và cập nhật dữ liệu. | Có. Thiết kế cơ chế ghi nhận phản hồi lỗi để thu thập Learning Signal cho Mentor cập nhật tri thức của bot. |
 
 ## 5. Evidence -> Insight
 
 ```text
 Evidence nổi bật nhất:
-Học viên liên tục hỏi đi hỏi lại những câu đã có trong Handbook, và thường xuyên bị kẹt ở các lỗi kỹ thuật lặp lại trên Discord mà phải đợi Mentor online mới giải quyết được.
+Học viên liên tục hỏi về tài nguyên (slide, link) và các thủ tục vận hành linh hoạt (đổi nhóm, lỗi setup) đã được giải đáp trước đó trên Discord, nhưng Trợ lý Kute cũ vẫn không trả lời được do chỉ dựa vào Handbook PDF tĩnh.
 
 Insight:
-User không chỉ gặp vấn đề thiếu thông tin (surface problem). Thật ra họ cần một "người hỗ trợ trực chiến" giải quyết nhanh gọn sự chênh lệch trình độ đầu vào, và cần sự tin tưởng (trust) rằng câu trả lời này chuẩn xác từ Ban tổ chức.
+Học viên cần một "người hỗ trợ trực chiến" phản hồi nhanh chóng và tin cậy cả thông tin tĩnh (Handbook) lẫn tri thức động phát sinh trong quá trình học (Discord Q&A). Họ cần sự tin tưởng rằng thông tin là chính xác nên cần có trích dẫn nguồn (số trang hoặc link tham chiếu).
 
 Opportunity:
-AI có thể giúp bằng cách tự động hóa (Automate) việc trả lời 100% các câu hỏi FAQ về chính sách/thủ tục. Đồng thời trợ lực (Augment) mảng hỏi đáp kỹ thuật bằng cách đưa ra gợi ý sửa lỗi nháp, cho phép học viên thao tác nhanh trước khi phải gọi Mentor.
+Dùng AI RAG đa nguồn (Handbook PDF + Discord Q&A) để:
+1. Automate 100% các câu hỏi FAQ hành chính từ Handbook (kèm trích dẫn số trang).
+2. Augment các câu hỏi kỹ thuật/vận hành bằng cách trích xuất Discord Q&A làm gợi ý nháp, đồng thời cung cấp lối thoát an toàn (Fallback) tự động log câu hỏi vào new_issue.json khi độ tự tin thấp (cosine similarity < 0.78 hoặc không tìm thấy thông tin).
 ```
 
 ## 6. Evidence đổi SPEC như thế nào?
 
 - [ ] Đổi user chính.
 - [ ] Đổi pain statement.
-- [ ] Đổi build slice.
+- [X] Đổi build slice.
 - [X] Đổi Auto/Aug decision.
 - [X] Đổi 4 paths.
 - [X] Đổi failure mode.
@@ -63,13 +64,9 @@ Ghi rõ 1-2 thay đổi quan trọng:
 
 ```text
 Trước evidence, nhóm định: 
-Làm một con bot gom chung mọi câu hỏi, AI tự do trả lời tất cả (Full-Automation).
+Làm một chatbot thông thường chỉ RAG trên tài liệu tĩnh (Handbook PDF) và trả lời tự động mọi câu hỏi (Full-Automation).
 
 Sau evidence, nhóm đổi thành: 
-Phân luồng quyết định (Routing Decision). 
-1. Câu hỏi thủ tục/hành chính -> Automate trả lời 100% dựa trên Handbook (kèm trích dẫn).
-2. Câu hỏi kỹ thuật/lỗi code -> Augment (AI đưa ra hướng dẫn nháp dựa trên Discord history, nhưng kèm nút "Báo cáo Mentor" nếu chạy thử vẫn lỗi).
-
-Lý do: 
-Tránh rủi ro (Failure Mode) AI bịa code sai khiến học viên chạy lỗi hệ thống rồi nản lòng. Áp dụng đúng tư duy "Lỗi báo nhầm đắt hơn hay bỏ sót đắt hơn" của Day 5.
+Xây dựng Chatbot Kuter (kết hợp Handbook tĩnh + Discord Q&A động). Áp dụng quy tắc Phân luồng quyết định (Conditional Automation): câu hỏi hành chính rõ ràng từ Handbook thì Automate trả lời; câu hỏi vận hành/kỹ thuật thì Augment dạng gợi ý nháp trích xuất từ Rule-base kèm tag [Rule-base]. Đồng thời thêm cơ chế dynamic update: khi Mentor dùng tính năng Reply trên Discord để trả lời câu hỏi mới, bot tự động paraphrase và cập nhật tri thức vào rulebase.json.
 ```
+

@@ -5,43 +5,42 @@ Thin SPEC không phải PRD đầy đủ. Đây là bản cam kết đủ rõ đ
 ## 1. Track, product/app và user
 
 **Track:** A. Learning OS (VinAI Thực chiến)
-**Product/app thật:** Website VinUni / Kênh hỗ trợ học viên VinAI Thực chiến
+**Product/app thật:** Chatbot Kuter - Kênh hỗ trợ học viên VinAI Thực chiến (phiên bản nâng cấp từ Trợ lý Kute cũ)
 **User cụ thể:**
-- Học viên mới onboard: tìm thông tin vận hành (deadline, thủ tục, setup môi trường)
-- Ứng viên đang cân nhắc đăng ký: cần tư vấn cá nhân hóa (có phù hợp không?)
+- Học viên mới onboard: tìm thông tin vận hành (deadline, đổi nhóm, slide bài học, setup môi trường).
+- Ứng viên đang cân nhắc đăng ký: cần tư vấn các quy định chung.
 
 **Nhóm có phải user thật không?**
-Có — Duy Bảo, Hữu Khoa, Anh Thư đều là học viên đang trải nghiệm workflow này trực tiếp.
+Có — Duy Bảo, Hữu Khoa, Anh Thư đều là học viên trực tiếp trải nghiệm và gặp các vấn đề này.
 
 ## 2. Evidence summary
 
 | Evidence | Nguồn | User/pain nói lên điều gì? | SPEC phải đổi gì? |
 |---|---|---|---|
-| Tìm "sinh viên năm cuối có được tham gia không?" trong Handbook PDF 20 trang bằng Ctrl+F | Self-use | User không đọc document dài; cần trích xuất thẳng câu trả lời + số trang | Automate FAQ từ Handbook kèm citation |
-| Discord search "Lỗi setup môi trường" ra đống tin nhắn đứt đoạn, không biết đâu là chốt của Mentor | Self-use | Data Discord nhiễu → nguy cơ hallucination cao; cần fallback tag Mentor | Augment kỹ thuật + fallback khi confidence thấp |
+| Thành viên Duy Bảo hỏi cách đổi nhóm đã được ghép cặp trên Discord của Trợ lý Kute cũ, bot báo lỗi và tag Mod | Self-use (`Figures/evidence_1.png`) | Thông tin vận hành lớp học linh hoạt (như đổi nhóm) không có trong Handbook PDF tĩnh nhưng đã được giải quyết trên Discord trước đó. Bot cũ không cập nhật được tri thức động này. | Nâng cấp RAG đa nguồn, kết hợp dữ liệu tĩnh (Handbook) và động (Discord Q&A). |
+| Học viên Lê Bá Chiến xin link slide Day 4, bot cũ không chắc chắn trả lời và tiếp tục tag Mod | Discord (`Figures/evidence_2.png`) | Tài nguyên học tập được chia sẻ liên tục nhưng bot cũ không biết, gây trôi tin nhắn và quá tải kênh chung. | Tích hợp cơ chế trích xuất link tài nguyên từ lịch sử Discord và tự động cập nhật tri thức khi Mentor trả lời. |
 
 ## 3. Pain statement
 
 ```text
-Học viên và ứng viên VinAI Thực chiến đang gặp khó ở bước tìm thông tin hành chính và xử lý lỗi kỹ thuật khi làm lab,
-vì thông tin nằm rải rác trong Handbook PDF dài và Discord nhiễu, dẫn tới phải đợi Mentor online mới giải quyết được,
-làm chậm tiến độ học và tăng tải cho đội ngũ hỗ trợ.
-Bằng chứng chính là:
-- Học viên hỏi deadline trên Discord không tìm thấy;
-- Học viên kẹt lỗi token limit kêu cứu công khai;
-- Nhóm self-use phải Ctrl+F mới ra kết quả ở trang 14 Handbook.
+Học viên và ứng viên VinAI Thực chiến đang gặp khó
+ở bước tìm kiếm tài nguyên học tập (slide) và giải quyết các vấn đề vận hành linh hoạt (đổi nhóm, lỗi setup),
+vì thông tin nằm rải rác trong Handbook PDF 17 trang dài dòng và kênh Discord trôi tin nhắn rất nhanh,
+dẫn tới học viên phải chờ đợi phản hồi thủ công từ Mentor/Admin,
+làm chậm tiến độ học tập và gây quá tải tin nhắn hỗ trợ cho Ban tổ chức.
+Bằng chứng cụ thể là: chatbot cũ (Trợ lý Kute) không thể trả lời, tag Mod khi Duy Bảo hỏi đổi nhóm và Lê Bá Chiến xin slide Day 4.
 ```
 
 ## 4. Build slice
 
 ```text
-Cho học viên và ứng viên VinAI Thực chiến đang tìm câu trả lời trên Handbook hoặc kẹt lỗi kỹ thuật khi làm lab,
-prototype sẽ dùng AI RAG để:
-  (1) Automate trả lời FAQ hành chính dựa trên Handbook — kèm trích dẫn số trang;
-  (2) Augment câu hỏi kỹ thuật bằng cách tổng hợp Discord history
-      thành gợi ý sửa lỗi nháp,
-tạo ra câu trả lời có nguồn rõ ràng và lối thoát an toàn và xử lý failure mode AI không chắc / câu hỏi ngoài scope
-bằng fallback nút "Báo cáo Mentor" + disclaimer rõ ràng.
+Cho học viên và ứng viên VinAI Thực chiến đang tìm kiếm tài nguyên hoặc thắc mắc vận hành,
+prototype Kuter dùng AI RAG kết hợp đa nguồn để:
+  (1) Automate trả lời 100% FAQ hành chính dựa trên Handbook PDF — kèm trích dẫn số trang;
+  (2) Augment câu hỏi vận hành và kỹ thuật bằng cách trích xuất Discord Q&A thành gợi ý giải pháp nháp,
+tạo ra câu trả lời có trích dẫn nguồn rõ ràng và lối thoát an toàn,
+và xử lý failure mode AI không chắc / câu hỏi ngoài scope
+bằng fallback tự động log câu hỏi chưa giải quyết vào new_issue.json và hướng dẫn người dùng liên hệ Mentor trên Discord.
 ```
 
 ## 5. Auto/Aug decision
@@ -53,32 +52,30 @@ Chọn một:
 - [ ] **Automation:** AI tự quyết và tự hành động.
 
 **Lý do chọn:**
-Phân luồng theo loại câu hỏi:
-- FAQ hành chính (deadline, điều kiện, thủ tục) → Automate: câu trả lời xác định, nguồn rõ từ Handbook, rủi ro thấp.
-- Câu hỏi kỹ thuật/lỗi code → Conditional: AI đưa gợi ý nháp từ Discord history; nếu confidence thấp hoặc user báo sai → fallback Mentor. Rủi ro AI bịa code sai gây học viên nản lòng quá cao để full-automate.
+Phân luồng theo loại câu hỏi để kiểm soát rủi ro:
+- FAQ hành chính từ Handbook -> Automate: dữ liệu chuẩn xác, cố định, rủi ro thấp.
+- Câu hỏi vận hành/kỹ thuật từ Discord -> Augment: cung cấp giải pháp nháp kèm disclaimer. Nếu độ tin cậy thấp (cosine similarity < 0.78), tự động chuyển luồng (Fallback) sang tag Mentor và log ticket, tránh rủi ro AI hallucinate code sai gây học viên nản lòng.
 
-**Human role:** rescuer (Mentor nhận báo cáo khi AI bó tay) + trainer (vote Thumbs Up/Down để cải thiện)
+**Human role:** Rescuer (Mentor nhận ticket khi AI không chắc) + Trainer (Mentor trả lời trên Discord để cập nhật tri thức bot thông qua Gemini paraphrase và cập nhật rulebase.json).
 
 ## 6. Four paths
 
 | Path | Prototype phải thể hiện gì? |
 |---|---|
-| Happy | User hỏi "Sinh viên năm cuối có được tham gia không?" → AI trả lời ngay kèm trích dẫn trang Handbook; user không cần rời chatbot |
-| Low-confidence | User hỏi câu kỹ thuật mơ hồ → AI hiển thị gợi ý nháp kèm disclaimer "Thông tin tổng hợp từ Discord, chưa được Mentor xác nhận" + nút "Báo cáo Mentor" |
-| Failure | User hỏi về nội dung không có trong Handbook và Discord → AI nói rõ giới hạn, không hallucination, tự động kích hoạt nút "Báo cáo Mentor" |
-| Correction | User bấm Thumbs Down hoặc "Báo cáo Mentor" → correction được log lại; Mentor nhận notification kèm context câu hỏi gốc |
+| **Happy** | User hỏi "Điều kiện nhận chứng chỉ là gì?" -> AI truy xuất Handbook và trả lời chính xác kèm số trang trích dẫn. |
+| **Low-confidence** | User hỏi câu kỹ thuật/vận hành phức tạp -> AI hiển thị giải pháp trích xuất từ Discord (Rule-base) kèm tag **`[Rule-base]`** để người dùng nhận biết nguồn. |
+| **Failure** | User hỏi câu ngoài scope -> AI báo giới hạn, không bịa câu trả lời, trả về câu thoại fallback hướng dẫn qua Discord và log new_issue.json. |
+| **Correction** | Mentor dùng tính năng Reply trên Discord để trả lời -> Hệ thống tự động paraphrase câu hỏi, lưu Q&A mới vào rulebase.json và cập nhật cache tức thì. |
 
 ## 7. Failure mode nguy hiểm nhất
 
 ```text
-Nếu học viên hỏi về lỗi code cụ thể (ví dụ: token limit, CUDA error),
-AI có thể hallucinate đoạn code sửa lỗi trông có vẻ hợp lý nhưng sai, hậu quả là học viên chạy theo code sai,
-lỗi lan rộng hơn, mất niềm tin vào tool và nản lòng.
+Nếu học viên hỏi về quy chế hoặc lỗi code, AI có thể hallucinate ra quy định sai lệch hoặc code lỗi trông có vẻ đúng,
+hậu quả là học viên làm sai quy chế dẫn đến mất điểm hoặc chạy code lỗi nặng hơn gây ức chế và mất niềm tin vào tool.
 Prototype sẽ xử lý bằng:
-  - Hiển thị disclaimer rõ trên mọi câu trả lời kỹ thuật;
-  - Nút "Báo cáo Mentor" luôn hiện kèm câu trả lời kỹ thuật;
-  - Nếu AI không tìm thấy evidence từ Discord → không sinh code, chỉ tag Mentor;
-  - Log correction khi user bấm Thumbs Down để Mentor review.
+  - Gắn tag **`[Rule-base]`** hoặc nguồn Handbook (số trang) rõ ràng với mỗi câu trả lời.
+  - Ngưỡng tin cậy (cosine similarity >= 0.78) để kích hoạt câu trả lời; dưới ngưỡng sẽ tự động fallback log new_issue.json và trả về câu thoại hướng dẫn.
+  - Log câu hỏi ngoài scope vào new_issue.json chờ Mentor kiểm duyệt.
 Owner kiểm thử path này là: Duy Bảo.
 ```
 
@@ -86,8 +83,8 @@ Owner kiểm thử path này là: Duy Bảo.
 
 | Thành viên | Việc phụ trách | Bằng chứng cần có trong repo |
 |---|---|---|
-| Anh Thư | Research / evidence — chuẩn hóa Handbook PDF và Discord Q&A thành data source cho RAG | evidence-pack.md + data folder |
-| Hữu Khoa | SPEC — hoàn thiện thin-spec, viết 4 paths và failure mode chi tiết | thin-spec-final.md |
-| Duy Bảo | Prototype — build chatbot RAG, phân luồng FAQ vs kỹ thuật, tích hợp fallback | prototype/ folder + README |
-| Duy Bảo | Test / failure path — kiểm thử câu hỏi kỹ thuật mơ hồ và câu ngoài scope | test-cases.md |
-| Cả nhóm | Demo script + ghi lại 3 case: happy / low-confidence / failure | demo-script.md |
+| Anh Thư | Research / data preparation — chuẩn hóa dữ liệu Handbook PDF và Discord Q&A thành định dạng làm sạch cho RAG pipeline. | Handbook PDF + data folder (Discord Q&A) |
+| Hữu Khoa | SPEC — hoàn thiện chi tiết thin-spec, kịch bản 4 paths và các lỗi failure mode. | thin-spec-final.md |
+| Duy Bảo | Prototype — lập trình RAG đa nguồn (FAISS, Gemini 2.5 Flash), phân luồng FAQ/Vận hành và tích hợp dynamic rule-base. | codebase/ folder + README |
+| Duy Bảo | Test / failure path — viết kịch bản kiểm thử và chạy test các luồng happy, low-confidence, fallback. | test-cases.md |
+| Cả nhóm | Demo script — chuẩn bị script demo 3 kịch bản chính cho buổi thuyết trình. | demo-script.md |
