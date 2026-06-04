@@ -23,27 +23,24 @@ Có — Duy Bảo, Hữu Khoa, Anh Thư đều là học viên đang trải nghi
 ## 3. Pain statement
 
 ```text
-Học viên và ứng viên VinAI Thực chiến đang gặp khó
-ở bước tìm thông tin hành chính và xử lý lỗi kỹ thuật khi làm lab,
-vì thông tin nằm rải rác trong Handbook PDF dài và Discord nhiễu,
-dẫn tới phải đợi Mentor online mới giải quyết được,
+Học viên và ứng viên VinAI Thực chiến đang gặp khó ở bước tìm thông tin hành chính và xử lý lỗi kỹ thuật khi làm lab,
+vì thông tin nằm rải rác trong Handbook PDF dài và Discord nhiễu, dẫn tới phải đợi Mentor online mới giải quyết được,
 làm chậm tiến độ học và tăng tải cho đội ngũ hỗ trợ.
-Bằng chứng chính là: học viên hỏi deadline trên Discord không tìm thấy;
-học viên kẹt lỗi token limit kêu cứu công khai;
-nhóm self-use phải Ctrl+F mỏi mắt mới ra kết quả ở trang 14 Handbook.
+Bằng chứng chính là:
+- Học viên hỏi deadline trên Discord không tìm thấy;
+- Học viên kẹt lỗi token limit kêu cứu công khai;
+- Nhóm self-use phải Ctrl+F mới ra kết quả ở trang 14 Handbook.
 ```
 
 ## 4. Build slice
 
 ```text
-Cho học viên và ứng viên VinAI Thực chiến đang tìm câu trả lời
-trên Handbook hoặc kẹt lỗi kỹ thuật khi làm lab,
+Cho học viên và ứng viên VinAI Thực chiến đang tìm câu trả lời trên Handbook hoặc kẹt lỗi kỹ thuật khi làm lab,
 prototype sẽ dùng AI RAG để:
   (1) Automate trả lời FAQ hành chính dựa trên Handbook — kèm trích dẫn số trang;
   (2) Augment câu hỏi kỹ thuật bằng cách tổng hợp Discord history
       thành gợi ý sửa lỗi nháp,
-tạo ra câu trả lời có nguồn rõ ràng và lối thoát an toàn,
-và xử lý failure mode AI không chắc / câu hỏi ngoài scope
+tạo ra câu trả lời có nguồn rõ ràng và lối thoát an toàn và xử lý failure mode AI không chắc / câu hỏi ngoài scope
 bằng fallback nút "Báo cáo Mentor" + disclaimer rõ ràng.
 ```
 
@@ -75,8 +72,8 @@ Phân luồng theo loại câu hỏi:
 
 ```text
 Nếu học viên hỏi về lỗi code cụ thể (ví dụ: token limit, CUDA error),
-AI có thể hallucinate đoạn code sửa lỗi trông có vẻ hợp lý nhưng sai,
-hậu quả là học viên chạy theo code sai, lỗi lan rộng hơn, mất niềm tin vào tool và nản lòng.
+AI có thể hallucinate đoạn code sửa lỗi trông có vẻ hợp lý nhưng sai, hậu quả là học viên chạy theo code sai,
+lỗi lan rộng hơn, mất niềm tin vào tool và nản lòng.
 Prototype sẽ xử lý bằng:
   - Hiển thị disclaimer rõ trên mọi câu trả lời kỹ thuật;
   - Nút "Báo cáo Mentor" luôn hiện kèm câu trả lời kỹ thuật;
